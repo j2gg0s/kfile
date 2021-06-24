@@ -8,6 +8,10 @@ import (
 	"github.com/Shopify/sarama"
 )
 
+func NewReader(addr string, client sarama.Client, opts ...Option) (*File, error) {
+	return newFile(addr, client, false, opts...)
+}
+
 func (f *File) ReadLine() (chan Line, error) {
 	ch := make(chan Line)
 	go func() {

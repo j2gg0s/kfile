@@ -35,14 +35,6 @@ type File struct {
 
 type Option func(*File)
 
-func NewWriter(topic, name string, client sarama.Client, opts ...Option) (*File, error) {
-	return newFile(formatURL(topic, name), client, true, opts...)
-}
-
-func NewReader(addr string, client sarama.Client, opts ...Option) (*File, error) {
-	return newFile(addr, client, false, opts...)
-}
-
 func newFile(addr string, client sarama.Client, isW bool, opts ...Option) (*File, error) {
 	f, err := parseURL(addr)
 	if err != nil {

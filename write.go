@@ -9,6 +9,14 @@ import (
 
 type Line []byte
 
+func NewWriter(topic, name string, client sarama.Client, opts ...Option) (*File, error) {
+	if !client.Config().Producer.Return.Successes {
+		return nil, fmt.Errorf("kfile requred Producer.Return.Successes is true")
+	}
+
+	return newFile(formatURL(topic, name), client, true, opts...)
+}
+
 func (f *File) Append(lines ...Line) error {
 	for _, line := range lines {
 		f.producer.Input() <- &sarama.ProducerMessage{
