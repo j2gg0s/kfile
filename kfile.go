@@ -62,7 +62,7 @@ func newFile(addr string, client sarama.Client, isW bool, opts ...Option) (*File
 		}
 	}
 
-	if err := f.createTopicIfNotExist(); err != nil {
+	if err := f.createTopicIfNotExist(); err != nil && err != sarama.ErrTopicAlreadyExists {
 		return nil, fmt.Errorf("create topic: %w", err)
 	}
 
