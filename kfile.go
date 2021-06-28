@@ -2,7 +2,6 @@ package kfile
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/Shopify/sarama"
 )
@@ -63,7 +62,7 @@ func newFile(addr string, client sarama.Client, isW bool, opts ...Option) (*File
 	}
 
 	if err := f.createTopicIfNotExist(); err != nil && err != sarama.ErrTopicAlreadyExists {
-		return nil, fmt.Errorf("create topic: %w", err)
+		return nil, err
 	}
 
 	return f, nil
