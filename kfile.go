@@ -61,8 +61,10 @@ func newFile(addr string, client sarama.Client, isW bool, opts ...Option) (*File
 		}
 	}
 
-	if err := f.createTopicIfNotExist(); err != nil && err != sarama.ErrTopicAlreadyExists {
-		return nil, err
+	if err := f.createTopicIfNotExist(); err != nil {
+		if kerr, ok := err.(sarama.KError); !ok || kerr != sarama.ErrTopicAlreadyExists {
+			return nil, err
+		}
 	}
 
 	return f, nil
