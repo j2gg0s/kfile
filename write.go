@@ -9,6 +9,8 @@ import (
 
 type Line []byte
 
+// NewWriter, new kafka producer for write msg.
+// Notice: we maybe need to set sarama.MaxRequestSize to match kafka's max.request.size
 func NewWriter(topic, name string, client sarama.Client, opts ...Option) (*File, error) {
 	if !client.Config().Producer.Return.Successes {
 		return nil, fmt.Errorf("kfile requred Producer.Return.Successes is true")
